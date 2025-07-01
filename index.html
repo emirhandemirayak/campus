@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Uygulaması - Üniversite Hayatını Kolaylaştırın</title>
+    <meta name="description" content="Üniversite öğrencilerinin sosyal, akademik ve günlük ihtiyaçlarını tek platformda birleştiren yenilikçi bir mobil uygulama.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50; /* A pleasant green */
+            --secondary-color: #8BC34A; /* A lighter, vibrant green */
+            --dark-bg: #1e2820; /* Darker green-ish background */
+            --dark-card: #2f3e30; /* Darker green-ish card background */
+            --text-color: #e0e0e0;
+            --light-text: #b0b0b0;
+            --border-color: #405a42; /* Greenish border */
+            --gradient-start: #1e2820;
+            --gradient-end: #121a14; /* Even darker green */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Language Switcher Styling */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
+        .language-switcher a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .language-switcher a:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .language-switcher a.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            pointer-events: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background: radial-gradient(circle at top left, rgba(76, 175, 80, 0.2), transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(139, 195, 74, 0.2), transparent 40%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 3.8em;
+            margin-bottom: 15px;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4em;
+            color: var(--light-text);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: 2px solid var(--primary-color);
+            animation: pulse 2s infinite ease-in-out; /* Added pulse animation */
+        }
+
+        .btn-primary:hover {
+            background-color: #388e3c; /* Darker green */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: none; /* Stop pulse on hover */
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+            50% { transform: scale(1.02); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+            color: white;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+            z-index: 2;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Floating Shapes for Hero */
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none; /* Ensures clicks pass through */
+        }
+
+        .floating-shapes .shape {
+            position: absolute;
+            background: radial-gradient(circle, rgba(139, 195, 74, 0.15), rgba(76, 175, 80, 0.05)); /* Greenish glow */
+            border-radius: 50%;
+            opacity: 0.7;
+            filter: blur(5px); /* Soft glow */
+            animation: floatAndFade 20s infinite ease-in-out alternate;
+        }
+
+        .floating-shapes .shape:nth-child(1) {
+            width: 120px; height: 120px;
+            top: 10%; left: 10%;
+            animation-duration: 18s;
+            animation-delay: 0s;
+        }
+        .floating-shapes .shape:nth-child(2) {
+            width: 180px; height: 180px;
+            top: 70%; left: 80%;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+        .floating-shapes .shape:nth-child(3) {
+            width: 80px; height: 80px;
+            top: 30%; left: 40%;
+            animation-duration: 16s;
+            animation-delay: 1s;
+        }
+        .floating-shapes .shape:nth-child(4) {
+            width: 150px; height: 150px;
+            top: 85%; left: 25%;
+            animation-duration: 20s;
+            animation-delay: 3s;
+        }
+        .floating-shapes .shape:nth-child(5) {
+            width: 100px; height: 100px;
+            top: 15%; left: 80%;
+            animation-duration: 19s;
+            animation-delay: 4s;
+        }
+        .floating-shapes .shape:nth-child(6) {
+            width: 90px; height: 90px;
+            top: 50%; left: 5%;
+            animation-duration: 17s;
+            animation-delay: 5s;
+        }
+        .floating-shapes .shape:nth-child(7) {
+            width: 110px; height: 110px;
+            top: 5%; left: 60%;
+            animation-duration: 21s;
+            animation-delay: 6s;
+        }
+
+        @keyframes floatAndFade {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+            50% { transform: translate(var(--float-x, 30px), var(--float-y, -30px)) scale(var(--float-scale, 1.05)); opacity: 0.8; }
+            100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+        }
+
+        /* Define custom properties for varied float paths (optional but good for variety) */
+        .floating-shapes .shape:nth-child(1) { --float-x: 40px; --float-y: -25px; --float-scale: 1.08; }
+        .floating-shapes .shape:nth-child(2) { --float-x: -50px; --float-y: 30px; --float-scale: 1.03; }
+        .floating-shapes .shape:nth-child(3) { --float-x: 20px; --float-y: 40px; --float-scale: 1.06; }
+        .floating-shapes .shape:nth-child(4) { --float-x: -30px; --float-y: -40px; --float-scale: 1.04; }
+        .floating-shapes .shape:nth-child(5) { --float-x: 45px; --float-y: 20px; --float-scale: 1.07; }
+        .floating-shapes .shape:nth-child(6) { --float-x: -25px; --float-y: -35px; --float-scale: 1.02; }
+        .floating-shapes .shape:nth-child(7) { --float-x: 35px; --float-y: 50px; --float-scale: 1.09; }
+
+        /* Section Styling */
+        .section {
+            padding: 80px 0;
+            text-align: center;
+            background-color: var(--dark-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section:nth-of-type(even) {
+            background-color: var(--gradient-end);
+        }
+
+        .section-title {
+            font-size: 2.8em;
+            margin-bottom: 60px;
+            color: white;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background-color: var(--dark-card);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02); /* More pronounced pop */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+        }
+
+        .feature-icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .feature-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .feature-card p {
+            font-size: 1.1em;
+            color: var(--light-text);
+        }
+
+        /* How It Works */
+        .how-it-works-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .how-it-works-step {
+            background-color: var(--dark-card);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            flex: 1 1 280px;
+            max-width: 320px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .how-it-works-step:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .step-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            background-color: var(--primary-color);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: -60px auto 20px auto;
+            border: 4px solid var(--dark-bg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .how-it-works-step h3 {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .how-it-works-step p {
+            font-size: 1.05em;
+            color: var(--light-text);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background-color: var(--dark-bg);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            background-color: var(--dark-card);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-item span {
+            font-size: 1.2em;
+            color: var(--light-text);
+            text-align: center;
+        }
+
+        /* Financial Projection */
+        .projection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .projection-card {
+            background-color: var(--dark-card);
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .projection-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .year-label {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .revenue-amount {
+            font-size: 3em;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .users-count {
+            font-size: 1.1em;
+            color: var(--light-text);
+        }
+
+        /* Roadmap */
+        .roadmap-timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 60px auto 0;
+            padding-left: 50px;
+            text-align: left;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--border-color);
+            border-radius: 2px;
+        }
+
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 50px;
+            padding-left: 50px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .roadmap-item:hover .roadmap-content {
+            background-color: #3f4f40; /* Slightly lighter green on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .roadmap-circle {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            border: 4px solid var(--dark-bg);
+            z-index: 1;
+            transform: translateX(-50%);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .roadmap-item:hover .roadmap-circle {
+            background-color: var(--secondary-color);
+            border-color: var(--primary-color);
+        }
+
+        .roadmap-content {
+            background-color: var(--dark-card);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .roadmap-content h3 {
+            font-size: 1.6em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .roadmap-content p {
+            font-size: 1.05em;
+            color: var(--light-text);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--gradient-end), var(--gradient-start));
+            padding-bottom: 80px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            background-color: var(--dark-card);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            min-width: 300px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .contact-item h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .contact-item p {
+            margin: 0;
+            color: var(--light-text);
+        }
+
+        .contact-item a {
+            color: var(--light-text);
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+            color: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .language-switcher {
+                top: 10px;
+                right: 10px;
+                gap: 5px;
+            }
+
+            .language-switcher a {
+                padding: 6px 12px;
+                font-size: 0.9em;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1em;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                padding: 12px 25px;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+
+            .features-grid, .how-it-works-grid, .stats-grid, .projection-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card, .how-it-works-step, .stat-item, .projection-card {
+                padding: 30px;
+            }
+
+            .how-it-works-step {
+                max-width: unset;
+            }
+
+            .roadmap-timeline {
+                padding-left: 20px;
+                margin-left: 20px;
+            }
+
+            .roadmap-timeline::before {
+                left: 0;
+            }
+
+            .roadmap-circle {
+                left: 0;
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero .subtitle {
+                font-size: 1em;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 1.8em;
+                margin-bottom: 40px;
+            }
+
+            .feature-icon {
+                font-size: 3em;
+            }
+
+            .feature-card h3 {
+                font-size: 1.5em;
+            }
+
+            .how-it-works-step h3 {
+                font-size: 1.4em;
+            }
+
+            .stat-number {
+                font-size: 2.5em;
+            }
+
+            .revenue-amount {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher">
+        <a href="index.html" class="active">TR</a>
+        <a href="en.html">EN</a>
+    </div>
+
+    <section class="hero">
+        <div class="floating-shapes" aria-hidden="true">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Campus Uygulaması</h1>
+                <p class="subtitle">Üniversite öğrencilerinin sosyal, akademik ve günlük ihtiyaçlarını tek platformda birleştiren yenilikçi bir mobil uygulama.</p>
+                <div class="cta-buttons">
+                    <a href="#features" class="btn btn-primary">🚀 Özelliklerimizi Keşfedin</a>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})" role="button" aria-label="Özellikler bölümüne aşağı kaydır">
+            ↓
+        </div>
+    </section>
+
+    <section id="features" class="section">
+        <div class="container">
+            <h2 class="section-title">Neden Campus Uygulaması?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Alışveriş sepeti simgesi">🛒</div>
+                    <h3>Güvenli İlan Sistemi</h3>
+                    <p>Kitap, eşya ve ev arkadaşı ilanları için filtrelenebilir, kategorize edilmiş, güvenli bir platform. Kullanıcı oylama sistemi ile güvenilirliği garantilenmiş.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Kilit simgesi">🔒</div>
+                    <h3>Kampüs İçi Güvenlik Ağı</h3>
+                    <p>Sadece üniversiteye bağlı e-posta ile erişilebilen kimlik doğrulamalı bir sosyal ağ ortamı. Tamamen öğrencilere özel güvenli bir alan.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Yıldız simgesi">⭐</div>
+                    <h3>Üniversite Entegrasyonu</h3>
+                    <p>Üniversitelerin mevcut web altyapılarını kolayca, hızlıca ve ekonomik bir şekilde mobil uygulama arayüzüne dönüştürme imkanı.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Parti patlatıcısı simgesi">🎉</div>
+                    <h3>Etkinlik Keşif Platformu</h3>
+                    <p>Etkinlik düzenleyicilerinin ve kulüplerin doğrulanmış kullanıcılara ulaşarak tek platform üzerinden bilet satabileceği bir platform.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Mesajlaşma balonu simgesi">💬</div>
+                    <h3>Sosyal Etkileşim</h3>
+                    <p>Forum, anket, paylaşım ve güvenli mesajlaşma özellikleri ile öğrencilerin etkileşimini artırma.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Robot simgesi">🤖</div>
+                    <h3>Akıllı Eşleştirme</h3>
+                    <p>Ortak ilgi alanları, konum ve kişilik özelliklerine göre uyumlu eşleşmeler için yapay zeka destekli algoritma.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <h2 class="section-title">Campus Uygulaması Nasıl Çalışır?</h2>
+            <div class="how-it-works-grid">
+                <div class="how-it-works-step">
+                    <div class="step-number">1</div>
+                    <h3>Kaydol ve Kimliğini Doğrula</h3>
+                    <p>Üniversite e-postanla güvenli bir şekilde kaydol ve kimliğini doğrula.</p>
+                </div>
+                <div class="how-it-works-step">
+                    <div class="step-number">2</div>
+                    <h3>Profilini Oluştur</h3>
+                    <p>İlgi alanlarını, bölümünü ve ihtiyaçlarını ekleyerek profilini kişiselleştir.</p>
+                </div>
+                <div class="how-it-works-step">
+                    <div class="step-number">3</div>
+                    <h3>Keşfet ve Bağlan</h3>
+                    <p>İlanlara göz at, etkinlikleri keşfet, forumlarda tartış ve diğer öğrencilerle bağlantı kur.</p>
+                </div>
+                <div class="how-it-works-step">
+                    <div class="step-number">4</div>
+                    <h3>Kampüs Hayatını Optimize Et</h3>
+                    <p>Campus Uygulaması ile üniversite deneyimini olabildiğince verimli ve keyifli hale getir.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section stats-section">
+        <div class="container">
+            <h2 class="section-title">Pazar Potansiyeli</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">8.2M</span>
+                    <span>Türkiye'deki Üniversite Öğrencisi Sayısı</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">%90</span>
+                    <span>Mobil Uygulama Kullanım Oranı</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">%72</span>
+                    <span>İkinci El Alışveriş Yapan Öğrenci</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">1.2B</span>
+                    <span>Türkiye EdTech Pazar Büyüklüğü</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Finansal Projeksiyon</h2>
+            <div class="projection-grid">
+                <div class="projection-card">
+                    <div class="year-label">Yıl 1 (2026)</div>
+                    <div class="revenue-amount">754K ₺</div>
+                    <div class="users-count">50.000 Aktif Kullanıcı</div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #b0b0b0;">Komisyon: 504K ₺<br>Reklam: 250K ₺</p>
+                </div>
+                <div class="projection-card">
+                    <div class="year-label">Yıl 3 (2028)</div>
+                    <div class="revenue-amount">5.8M ₺</div>
+                    <div class="users-count">300.000 Aktif Kullanıcı</div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #b0b0b0;">Komisyon: 4.032M ₺<br>Reklam/B2B: 1.75M ₺</p>
+                </div>
+                <div class="projection-card">
+                    <div class="year-label">Yıl 5 (2030)</div>
+                    <div class="revenue-amount">20M ₺</div>
+                    <div class="users-count">1.000.000 Aktif Kullanıcı</div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #b0b0b0;">Komisyon: 14M ₺<br>Reklam/B2B: 6M ₺</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Hangi Sorunu Çözüyoruz?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Hedef simgesi">🎯</div>
+                    <h3>Gerçek Sorunlar</h3>
+                    <p><strong>Parçalanmış Platform Sorunu:</strong> Kitaplar için (Sahibinden), ev arkadaşı için (Instagram), etkinlikler için (Facebook) farklı platformlar kullanma. Bu parçalanmışlık zaman kaybına ve güvenlik risklerine yol açıyor.</p>
+                    <p style="margin-top: 1rem;"><strong>Güvenlik Endişeleri:</strong> Açık platformlarda kimlik doğrulaması olmaması, dolandırıcılık riskinin yüksek olması.</p>
+                    <p style="margin-top: 1rem;"><strong>Bilgi Kirliliği:</strong> Üniversite hakkında güvenilir bilgi kaynaklarının yetersizliği.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Parlayan yıldız simgesi">✨</div>
+                    <h3>Campus Uygulaması Çözümü</h3>
+                    <p><strong>Tek Platform:</strong> Kitap değişimi, ev arkadaşı bulma, etkinlik keşfi - hepsi tek uygulamada.</p>
+                    <p style="margin-top: 1rem;"><strong>Güvenli Ortam:</strong> Sadece .edu.tr uzantılı e-posta ile üyelik, kimlik doğrulama sistemi.</p>
+                    <p style="margin-top: 1rem;"><strong>Akıllı Öneriler:</strong> Yapay zeka destekli eşleştirme ve kişiselleştirilmiş içerik.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Pazar Analizi & Rekabet</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Çubuk grafik simgesi">📊</div>
+                    <h3>Hedef Pazar</h3>
+                    <p><strong>Birincil:</strong> Türkiye'deki 18-25 yaş arası üniversite öğrencileri (7.8M)</p>
+                    <p><strong>İkincil:</strong> Avrupa'daki 100K+ Türk öğrenci</p>
+                    <p><strong>TAM:</strong> 1.2 Milyar Dolar EdTech pazarı</p>
+                    <p><strong>SAM:</strong> 240 Milyon Dolar öğrenci odaklı platform pazarı</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Kupa simgesi">🏆</div>
+                    <h3>Rekabet Avantajı</h3>
+                    <p><strong>Yerel Odak:</strong> Türkiye üniversite kültürüne özel tasarım</p>
+                    <p><strong>Güvenlik Önceliği:</strong> .edu.tr zorunluluğu ile güvenli ortam</p>
+                    <p><strong>Çok Fonksiyonlu:</strong> Tek platformda 6 farklı ihtiyaç</p>
+                    <p><strong>YZ Entegrasyonu:</strong> Akıllı eşleştirme algoritmaları</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Para torbası simgesi">💰</div>
+                    <h3>Gelir Modeli</h3>
+                    <p><strong>Komisyon (%70):</strong> İşlemlerden %8-12 komisyon</p>
+                    <p><strong>Reklam (%20):</strong> Hedefli kampüs içi reklamlar</p>
+                    <p><strong>Premium (%10):</strong> Gelişmiş özellikler için abonelik</p>
+                    <p><strong>B2B Ortaklıkları:</strong> Üniversitelerle entegrasyon</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="roadmap" class="section">
+        <div class="container">
+            <h2 class="section-title">Gelecek Planları & Yol Haritası</h2>
+            <div class="roadmap-timeline">
+                <div class="roadmap-item">
+                    <div class="roadmap-circle"></div>
+                    <div class="roadmap-content">
+                        <h3>2025 Q4: Beta Lansmanı & İlk Kampüsler</h3>
+                        <p>Uygulamanın beta sürümünü belirlenen pilot üniversitelerde yayınlama. İlk geri bildirimleri toplama ve iyileştirmeler yapma.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-circle"></div>
+                    <div class="roadmap-content">
+                        <h3>2026 Q1: Resmi Lansman & Genişleme</h3>
+                        <p>Türkiye genelindeki üniversitelere açılma. Pazarlama kampanyaları ile kullanıcı tabanını hızla artırma.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-circle"></div>
+                    <div class="roadmap-content">
+                        <h3>2026 Q2: Yeni Özellik Entegrasyonları</h3>
+                        <p>Ders materyali paylaşımı, kariyer mentorluğu ve akıllı kampüs navigasyonu gibi ek özelliklerin eklenmesi.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-circle"></div>
+                    <div class="roadmap-content">
+                        <h3>2027: Uluslararası Genişleme</h3>
+                        <p>Uluslararası genişleme stratejilerinin başlatılması, ilk olarak Avrupa'daki Türk öğrenciler hedeflenerek, ardından dünya çapında yayılma.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="techstack" class="section">
+        <div class="container">
+            <h2 class="section-title">Teknoloji & Güvenlik</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Mobil telefon simgesi">📱</div>
+                    <h3>Teknik Altyapı</h3>
+                    <p><strong>Ön Yüz (Frontend):</strong> Flutter (iOS & Android)</p>
+                    <p><strong>Arka Yüz (Backend):</strong> Node.js + Express.js</p>
+                    <p><strong>Veritabanı:</strong> Firebase</p>
+                    <p><strong>Bulut:</strong> AWS EC2, S3, CloudFront</p>
+                    <p><strong>YZ/ML:</strong> Python + TensorFlow</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Asma kilit simgesi">🔐</div>
+                    <h3>Güvenlik Önlemleri</h3>
+                    <p><strong>Kimlik Doğrulama:</strong> .edu.tr e-posta zorunluluğu</p>
+                    <p><strong>Veri Güvenliği:</strong> Uçtan uca şifreleme</p>
+                    <p><strong>Ödeme Güvenliği:</strong> PCI DSS uyumlu sistem</p>
+                    <p><strong>Moderasyon:</strong> YZ + insan moderasyonu</p>
+                    <p><strong>KVKK Uyumu:</strong> Tam veri koruma</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Roket simgesi">🚀</div>
+                    <h3>Ölçeklenebilirlik</h3>
+                    <p><strong>Mikroservis Mimarisi:</strong> Modüler yapı</p>
+                    <p><strong>Yük Dengeleme:</strong> Yüksek trafik desteği</p>
+                    <p><strong>CDN Entegrasyonu:</strong> Hızlı içerik dağıtımı</p>
+                    <p><strong>Otomatik Ölçeklendirme:</strong> Dinamik kaynak yönetimi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">İş Modeli Detayları</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Kredi kartı simgesi">💳</div>
+                    <h3>Komisyon Modeli</h3>
+                    <p><strong>Kitap Satışları:</strong> %8 komisyon (ortalama 50₺ işlem)</p>
+                    <p><strong>Eşya/Elektronik:</strong> %10 komisyon (ortalama 200₺)</p>
+                    <p><strong>Etkinlik Biletleri:</strong> %15 komisyon</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Megafon simgesi">📢</div>
+                    <h3>Reklam Gelirleri</h3>
+                    <p><strong>Banner Reklamlar:</strong> 2₺ / 1000 gösterim</p>
+                    <p><strong>Sponsorlu Gönderiler:</strong> 500₺ / hafta</p>
+                    <p><strong>Kampüs İşletmeleri:</strong> 1000₺ / ay paket</p>
+                    <p><strong>Etkinlik Sponsorluğu:</strong> 2000₺ / etkinlik</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Üniversite simgesi">🎓</div>
+                    <h3>Üniversite Entegrasyonu</h3>
+                    <p><strong>Akademik Takvim & Duyurular:</strong> Üniversitelerle doğrudan entegrasyon</p>
+                    <p><strong>Özel Kampüs İlanları:</strong> Üniversite onaylı ve doğrulanmış içerik</p>
+                    <p><strong>Etkinlik & Ders İşbirlikleri:</strong> Üniversite destekli kampüs aktiviteleri</p>
+                    <p><strong>Yıllık Üniversite Lisans Geliri:</strong> Ortalama 57.000₺</p>
+                    <p style="font-size: 0.9em; color: #555;">
+                        (5.000₺ lisans + tahmini toplam yıllık reklam ve sponsorluk geliri dahil)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+        <div class="container">
+            <h2 class="section-title">Bize Ulaşın</h2>
+            <p class="subtitle" style="margin-bottom: 2rem; color: #d0d0d0;">
+                Sorularınız veya işbirliği teklifleriniz için bize ulaşmaktan çekinmeyin.
+            </p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="feature-icon" style="font-size: 2rem;">📧</span>
+                    <div>
+                        <h3>E-posta</h3>
+                        <p>
+                            <a href="mailto:info@campusturkey.xyz" style="color: white; text-decoration: none;">info@campusturkey.xyz</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="feature-icon" style="font-size: 2rem;">📍</span>
+                    <div>
+                        <h3>Adres</h3>
+                        <p>
+                            <a href="https://www.google.com/maps/place/Kızılırmak,+Ufuk+Ünv.+Cd+No:12,+06510+Çankaya/Ankara"
+                               target="_blank" rel="noopener noreferrer"
+                               style="color: white; text-decoration: underline; cursor: pointer;">
+                                Kızılırmak, Ufuk Ünv. Cd No:12, 06510 Çankaya/Ankara, Türkiye
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="cta-buttons" style="margin-top: 4rem;">
+                <a href="https://www.linkedin.com/company/campustr" class="btn btn-secondary" aria-label="LinkedIn profilimizi ziyaret edin">LinkedIn</a>
+                <a href="https://x.com/campusapptr" class="btn btn-secondary" aria-label="Twitter hesabımızı takip edin">Twitter</a>
+                <a href="https://www.instagram.com/campusapptr/" class="btn btn-secondary" aria-label="Instagram sayfamızı ziyaret edin">Instagram</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
