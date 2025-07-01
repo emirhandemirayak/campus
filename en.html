@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus App - Simplifying University Life</title>
+    <meta name="description" content="An innovative mobile application that unifies the social, academic, and daily needs of university students on a single platform.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50; /* A pleasant green */
+            --secondary-color: #8BC34A; /* A lighter, vibrant green */
+            --dark-bg: #1e2820; /* Darker green-ish background */
+            --dark-card: #2f3e30; /* Darker green-ish card background */
+            --text-color: #e0e0e0;
+            --light-text: #b0b0b0;
+            --border-color: #405a42; /* Greenish border */
+            --gradient-start: #1e2820;
+            --gradient-end: #121a14; /* Even darker green */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Language Switcher Styling */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
+        .language-switcher a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .language-switcher a:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .language-switcher a.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            pointer-events: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background: radial-gradient(circle at top left, rgba(76, 175, 80, 0.2), transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(139, 195, 74, 0.2), transparent 40%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 3.8em;
+            margin-bottom: 15px;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4em;
+            color: var(--light-text);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: 2px solid var(--primary-color);
+            animation: pulse 2s infinite ease-in-out; /* Added pulse animation */
+        }
+
+        .btn-primary:hover {
+            background-color: #388e3c; /* Darker green */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: none; /* Stop pulse on hover */
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+            50% { transform: scale(1.02); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+            color: white;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+            z-index: 2;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Floating Shapes for Hero */
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none; /* Ensures clicks pass through */
+        }
+
+        .floating-shapes .shape {
+            position: absolute;
+            background: radial-gradient(circle, rgba(139, 195, 74, 0.15), rgba(76, 175, 80, 0.05)); /* Greenish glow */
+            border-radius: 50%;
+            opacity: 0.7;
+            filter: blur(5px); /* Soft glow */
+            animation: floatAndFade 20s infinite ease-in-out alternate;
+        }
+
+        .floating-shapes .shape:nth-child(1) {
+            width: 120px; height: 120px;
+            top: 10%; left: 10%;
+            animation-duration: 18s;
+            animation-delay: 0s;
+        }
+        .floating-shapes .shape:nth-child(2) {
+            width: 180px; height: 180px;
+            top: 70%; left: 80%;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+        .floating-shapes .shape:nth-child(3) {
+            width: 80px; height: 80px;
+            top: 30%; left: 40%;
+            animation-duration: 16s;
+            animation-delay: 1s;
+        }
+        .floating-shapes .shape:nth-child(4) {
+            width: 150px; height: 150px;
+            top: 85%; left: 25%;
+            animation-duration: 20s;
+            animation-delay: 3s;
+        }
+        .floating-shapes .shape:nth-child(5) {
+            width: 100px; height: 100px;
+            top: 15%; left: 80%;
+            animation-duration: 19s;
+            animation-delay: 4s;
+        }
+        .floating-shapes .shape:nth-child(6) {
+            width: 90px; height: 90px;
+            top: 50%; left: 5%;
+            animation-duration: 17s;
+            animation-delay: 5s;
+        }
+        .floating-shapes .shape:nth-child(7) {
+            width: 110px; height: 110px;
+            top: 5%; left: 60%;
+            animation-duration: 21s;
+            animation-delay: 6s;
+        }
+
+        @keyframes floatAndFade {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+            50% { transform: translate(var(--float-x, 30px), var(--float-y, -30px)) scale(var(--float-scale, 1.05)); opacity: 0.8; }
+            100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+        }
+
+        /* Define custom properties for varied float paths (optional but good for variety) */
+        .floating-shapes .shape:nth-child(1) { --float-x: 40px; --float-y: -25px; --float-scale: 1.08; }
+        .floating-shapes .shape:nth-child(2) { --float-x: -50px; --float-y: 30px; --float-scale: 1.03; }
+        .floating-shapes .shape:nth-child(3) { --float-x: 20px; --float-y: 40px; --float-scale: 1.06; }
+        .floating-shapes .shape:nth-child(4) { --float-x: -30px; --float-y: -40px; --float-scale: 1.04; }
+        .floating-shapes .shape:nth-child(5) { --float-x: 45px; --float-y: 20px; --float-scale: 1.07; }
+        .floating-shapes .shape:nth-child(6) { --float-x: -25px; --float-y: -35px; --float-scale: 1.02; }
+        .floating-shapes .shape:nth-child(7) { --float-x: 35px; --float-y: 50px; --float-scale: 1.09; }
+
+
+        /* Section Styling */
+        .section {
+            padding: 80px 0;
+            text-align: center;
+            background-color: var(--dark-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section:nth-of-type(even) {
+            background-color: var(--gradient-end);
+        }
+
+        .section-title {
+            font-size: 2.8em;
+            margin-bottom: 60px;
+            color: white;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background-color: var(--dark-card);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02); /* More pronounced pop */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+        }
+
+        .feature-icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .feature-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .feature-card p {
+            font-size: 1.1em;
+            color: var(--light-text);
+        }
+
+        /* How It Works */
+        .how-it-works-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .how-it-works-step {
+            background-color: var(--dark-card);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            flex: 1 1 280px;
+            max-width: 320px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .how-it-works-step:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .step-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            background-color: var(--primary-color);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: -60px auto 20px auto;
+            border: 4px solid var(--dark-bg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .how-it-works-step h3 {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .how-it-works-step p {
+            font-size: 1.05em;
+            color: var(--light-text);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background-color: var(--dark-bg);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            background-color: var(--dark-card);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-item span {
+            font-size: 1.2em;
+            color: var(--light-text);
+            text-align: center;
+        }
+
+        /* Financial Projection */
+        .projection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .projection-card {
+            background-color: var(--dark-card);
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .projection-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .year-label {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .revenue-amount {
+            font-size: 3em;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .users-count {
+            font-size: 1.1em;
+            color: var(--light-text);
+        }
+
+        /* Roadmap */
+        .roadmap-timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 60px auto 0;
+            padding-left: 50px;
+            text-align: left;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--border-color);
+            border-radius: 2px;
+        }
+
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 50px;
+            padding-left: 50px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .roadmap-item:hover .roadmap-content {
+            background-color: #3f4f40; /* Slightly lighter green on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .roadmap-circle {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            border: 4px solid var(--dark-bg);
+            z-index: 1;
+            transform: translateX(-50%);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .roadmap-item:hover .roadmap-circle {
+            background-color: var(--secondary-color);
+            border-color: var(--primary-color);
+        }
+
+        .roadmap-content {
+            background-color: var(--dark-card);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .roadmap-content h3 {
+            font-size: 1.6em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .roadmap-content p {
+            font-size: 1.05em;
+            color: var(--light-text);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--gradient-end), var(--gradient-start));
+            padding-bottom: 80px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            background-color: var(--dark-card);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            min-width: 300px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .contact-item h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .contact-item p {
+            margin: 0;
+            color: var(--light-text);
+        }
+
+        .contact-item a {
+            color: var(--light-text);
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+            color: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .language-switcher {
+                top: 10px;
+                right: 10px;
+                gap: 5px;
+            }
+
+            .language-switcher a {
+                padding: 6px 12px;
+                font-size: 0.9em;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1em;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                padding: 12px 25px;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+
+            .features-grid, .how-it-works-grid, .stats-grid, .projection-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card, .how-it-works-step, .stat-item, .projection-card {
+                padding: 30px;
+            }
+
+            .how-it-works-step {
+                max-width: unset;
+            }
+
+            .roadmap-timeline {
+                padding-left: 20px;
+                margin-left: 20px;
+            }
+
+            .roadmap-timeline::before {
+                left: 0;
+            }
+
+            .roadmap-circle {
+                left: 0;
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero .subtitle {
+                font-size: 1em;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 1.8em;
+                margin-bottom: 40px;
+            }
+
+            .feature-icon {
+                font-size: 3em;
+            }
+
+            .feature-card h3 {
+                font-size: 1.5em;
+            }
+
+            .how-it-works-step h3 {
+                font-size: 1.4em;
+            }
+
+            .stat-number {
+                font-size: 2.5em;
+            }
+
+            .revenue-amount {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher">
+        <a href="index.html">TR</a>
+        <a href="en.html" class="active">EN</a>
+    </div>
+
+    <section class="hero">
+        <div class="floating-shapes" aria-hidden="true">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Campus App</h1>
+                <p class="subtitle">An innovative mobile application that unifies the social, academic, and daily needs of university students on a single platform.</p>
+                <div class="cta-buttons">
+                    <a href="#features" class="btn btn-primary">🚀 Discover Our Features</a>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})" role="button" aria-label="Scroll down to features section">
+            ↓
+        </div>
+    </section>
+
+    <section id="features" class="section">
+        <div class="container">
+            <h2 class="section-title">Why Campus App?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Shopping cart icon">🛒</div>
+                    <h3>Secure Listing System</h3>
+                    <p>A filterable, categorized, and secure platform for book, item, and roommate listings. Reliability guaranteed with a user rating system.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Lock icon">🔒</div>
+                    <h3>Campus Security Network</h3>
+                    <p>An identity-verified social network environment accessible only with university-affiliated email. A secure space exclusively for students.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Star icon">⭐</div>
+                    <h3>University Integration</h3>
+                    <p>The possibility to easily, quickly, and economically transform universities' existing web infrastructures into a mobile application interface.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Party popper icon">🎉</div>
+                    <h3>Event Discovery Platform</h3>
+                    <p>A platform for organizers and clubs to reach verified users and sell tickets through a single platform.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Messaging bubble icon">💬</div>
+                    <h3>Social Interaction</h3>
+                    <p>Enhancing student interaction with forum, survey, sharing, and secure messaging features.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Robot icon">🤖</div>
+                    <h3>Smart Matching</h3>
+                    <p>AI-powered algorithm for compatible matches based on shared interests, location, and personality traits.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <h2 class="section-title">How Campus App Works?</h2>
+            <div class="how-it-works-grid">
+                <div class="how-it-works-step">
+                    <div class="step-number">1</div>
+                    <h3>Sign Up & Verify Your Identity</h3>
+                    <p>Securely register with your university email address and verify your identity.</p>
+                </div>
+                <div class="how-it-works-step">
+                    <div class="step-number">2</div>
+                    <h3>Create Your Profile</h3>
+                    <p>Personalize your profile by adding your interests, major, and needs.</p>
+                </div>
+                <div class="how-it-works-step">
+                    <div class="step-number">3</div>
+                    <h3>Explore & Connect</h3>
+                    <p>Browse listings, discover events, discuss in forums, and connect with other students.</p>
+                </div>
+                <div class="how-it-works-step">
+                    <div class="step-number">4</div>
+                    <h3>Optimize Campus Life</h3>
+                    <p>Make your university experience as efficient and enjoyable as possible with Campus App.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section stats-section">
+        <div class="container">
+            <h2 class="section-title">Market Potential</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">8.2M</span>
+                    <span>University Students in Turkey</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">%90</span>
+                    <span>Mobile App Usage Rate</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">%72</span>
+                    <span>Students Buying Second-Hand</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">1.2B</span>
+                    <span>Turkey EdTech Market Size</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Financial Projection</h2>
+            <div class="projection-grid">
+                <div class="projection-card">
+                    <div class="year-label">Year 1 (2026)</div>
+                    <div class="revenue-amount">754K ₺</div>
+                    <div class="users-count">50,000 Active Users</div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #b0b0b0;">Commission: 504K ₺<br>Advertising: 250K ₺</p>
+                </div>
+                <div class="projection-card">
+                    <div class="year-label">Year 3 (2028)</div>
+                    <div class="revenue-amount">5.8M ₺</div>
+                    <div class="users-count">300,000 Active Users</div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #b0b0b0;">Commission: 4.032M ₺<br>Advertising/B2B: 1.75M ₺</p>
+                </div>
+                <div class="projection-card">
+                    <div class="year-label">Year 5 (2030)</div>
+                    <div class="revenue-amount">20M ₺</div>
+                    <div class="users-count">1,000,000 Active Users</div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #b0b0b0;">Commission: 14M ₺<br>Advertising/B2B: 6M ₺</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">What Problem Are We Solving?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Target icon">🎯</div>
+                    <h3>Real Problems</h3>
+                    <p><strong>Fragmented Platform Issue:</strong> Students use different platforms for books (Sahibinden), roommates (Instagram), and events (Facebook). This fragmentation leads to wasted time and security risks.</p>
+                    <p style="margin-top: 1rem;"><strong>Security Concerns:</strong> Open platforms lack identity verification, leading to high fraud risk.</p>
+                    <p style="margin-top: 1rem;"><strong>Information Overload:</strong> Lack of reliable information sources about the university.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Sparkling star icon">✨</div>
+                    <h3>Campus App Solution</h3>
+                    <p><strong>Single Platform:</strong> All needs in one app - book exchange, roommate finding, event discovery.</p>
+                    <p style="margin-top: 1rem;"><strong>Secure Environment:</strong> Membership only with .edu.tr email, identity verification system.</p>
+                    <p style="margin-top: 1rem;"><strong>Smart Recommendations:</strong> AI-powered matching and personalized content.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Market Analysis & Competition</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Bar chart icon">📊</div>
+                    <h3>Target Market</h3>
+                    <p><strong>Primary:</strong> 18-25 year old university students in Turkey (7.8M)</p>
+                    <p><strong>Secondary:</strong> 100K+ Turkish students in Europe</p>
+                    <p><strong>TAM:</strong> $1.2 Billion EdTech market</p>
+                    <p><strong>SAM:</strong> $240M student-focused platform market</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Trophy icon">🏆</div>
+                    <h3>Competitive Advantage</h3>
+                    <p><strong>Local Focus:</strong> Design specifically for Turkish university culture</p>
+                    <p><strong>Security Priority:</strong> Secure environment with .edu.tr requirement</p>
+                    <p><strong>Multi-functional:</strong> 6 different needs on a single platform</p>
+                    <p><strong>AI Integration:</strong> Smart matching algorithms</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Money bag icon">💰</div>
+                    <h3>Monetization Strategy</h3>
+                    <p><strong>Commission (70%):</strong> 8-12% commission on transactions</p>
+                    <p><strong>Advertising (20%):</strong> Targeted campus advertisements</p>
+                    <p><strong>Premium (10%):</strong> Subscription for advanced features</p>
+                    <p><strong>B2B Partnerships:</strong> Integration with universities</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="roadmap" class="section">
+        <div class="container">
+            <h2 class="section-title">Our Future Plans & Roadmap</h2>
+            <div class="roadmap-timeline">
+                <div class="roadmap-item">
+                    <div class="roadmap-circle"></div>
+                    <div class="roadmap-content">
+                        <h3>Q4 2025: Beta Launch & First Campuses</h3>
+                        <p>Release the beta version of the application in selected pilot universities. Collect initial feedback and make improvements.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-circle"></div>
+                    <div class="roadmap-content">
+                        <h3>Q1 2026: Official Launch & Expansion</h3>
+                        <p>Open up to universities across Turkey. Rapidly increase user base with marketing campaigns.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-circle"></div>
+                    <div class="roadmap-content">
+                        <h3>Q2 2026: New Feature Integrations</h3>
+                        <p>Adding additional features such as course material sharing, career mentorship, and smart campus navigation.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-circle"></div>
+                    <div class="roadmap-content">
+                        <h3>2027: International Expansion</h3>
+                        <p>Initiating global expansion strategies, initially targeting Turkish students in Europe, then worldwide.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="techstack" class="section">
+        <div class="container">
+            <h2 class="section-title">Technology & Security</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Mobile phone icon">📱</div>
+                    <h3>Technical Infrastructure</h3>
+                    <p><strong>Frontend:</strong> Flutter (iOS & Android)</p>
+                    <p><strong>Backend:</strong> Node.js + Express.js</p>
+                    <p><strong>Database:</strong> Firebase</p>
+                    <p><strong>Cloud:</strong> AWS EC2, S3, CloudFront</p>
+                    <p><strong>AI/ML:</strong> Python + TensorFlow</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Padlock icon">🔐</div>
+                    <h3>Security Measures</h3>
+                    <p><strong>Identity Verification:</strong> .edu.tr email requirement</p>
+                    <p><strong>Data Security:</strong> End-to-end encryption</p>
+                    <p><strong>Payment Security:</strong> PCI DSS compliant system</p>
+                    <p><strong>Moderation:</strong> AI + human moderation</p>
+                    <p><strong>KVKK Compliance:</strong> Full data protection</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Rocket icon">🚀</div>
+                    <h3>Scalability</h3>
+                    <p><strong>Microservice Architecture:</strong> Modular structure</p>
+                    <p><strong>Load Balancing:</strong> High traffic support</p>
+                    <p><strong>CDN Integration:</strong> Fast content delivery</p>
+                    <p><strong>Auto-scaling:</strong> Dynamic resource management</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Business Model Details</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Credit card icon">💳</div>
+                    <h3>Commission Model</h3>
+                    <p><strong>Book Sales:</strong> 8% commission (average 50₺ transaction)</p>
+                    <p><strong>Items/Electronics:</strong> 10% commission (average 200₺)</p>
+                    <p><strong>Event Tickets:</strong> 15% commission</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="Megaphone icon">📢</div>
+                    <h3>Advertising Revenue</h3>
+                    <p><strong>Banner Ads:</strong> 2₺ / 1000 impressions</p>
+                    <p><strong>Sponsored Posts:</strong> 500₺ / week</p>
+                    <p><strong>Campus Businesses:</strong> 1000₺ / month package</p>
+                    <p><strong>Event Sponsorship:</strong> 2000₺ / event</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" role="img" aria-label="University icon">🎓</div>
+                    <h3>University Integration</h3>
+                    <p><strong>Academic Calendar & Announcements:</strong> Direct integration with universities</p>
+                    <p><strong>Exclusive Campus Listings:</strong> University-approved and verified content</p>
+                    <p><strong>Event & Course Collaborations:</strong> University-supported campus activities</p>
+                    <p><strong>Annual University License Revenue:</strong> Average 57,000₺</p>
+                    <p style="font-size: 0.9em; color: #555;">
+                        (Includes 5,000₺ license + estimated total annual advertising and sponsorship revenue)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <p class="subtitle" style="margin-bottom: 2rem; color: #d0d0d0;">
+                Reach out to us for your questions or collaboration proposals.
+            </p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="feature-icon" style="font-size: 2rem;">📧</span>
+                    <div>
+                        <h3>Email</h3>
+                        <p>
+                            <a href="mailto:info@campusturkey.xyz" style="color: white; text-decoration: none;">info@campusturkey.xyz</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="feature-icon" style="font-size: 2rem;">📍</span>
+                    <div>
+                        <h3>Address</h3>
+                        <p>
+                            <a href="https://www.google.com/maps/place/Kızılırmak,+Ufuk+Ünv.+Cd+No:12,+06510+Çankaya/Ankara"
+                               target="_blank" rel="noopener noreferrer"
+                               style="color: white; text-decoration: underline; cursor: pointer;">
+                                Kızılırmak, Ufuk Ünv. Cd No:12, 06510 Çankaya/Ankara, Turkey
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="cta-buttons" style="margin-top: 4rem;">
+                <a href="https://www.linkedin.com/company/campustr" class="btn btn-secondary" aria-label="Visit our LinkedIn profile">LinkedIn</a>
+                <a href="https://x.com/campusapptr" class="btn btn-secondary" aria-label="Follow our Twitter account">Twitter</a>
+                <a href="https://www.instagram.com/campusapptr/" class="btn btn-secondary" aria-label="Visit our Instagram page">Instagram</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
